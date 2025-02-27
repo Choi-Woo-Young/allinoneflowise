@@ -9,7 +9,7 @@
 2. **디렉토리명 수정**  
    `allinoneflowise_template` → `allinoneflowise`
 
-3. **Docker Compose 실행**  
+3. **서비스 컨테이너 실행**  
    ```bash
    cd allinoneflowise
    docker compose up --build --watch
@@ -18,7 +18,6 @@
 4. **서비스 확인**  
    - **Nginx & Flowise**  
      [http://localhost](http://localhost)  
-     접속 시 Flowise 동작 확인
    - **PostgreSQL & Adminer**  
      [http://localhost:8080/?pgsql=postgres_db&username=postgres&db=flowise_db&ns=public](http://localhost:8080/?pgsql=postgres_db&username=postgres&db=flowise_db&ns=public)
    - **Redis & Redis-Commander**  
