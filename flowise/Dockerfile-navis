@@ -14,7 +14,7 @@ ENV NODE_OPTIONS=--max-old-space-size=8192
 
 WORKDIR /usr/src
 
-COPY ../ .
+COPY ../workspace/Flowise .
 
 RUN pnpm install
 

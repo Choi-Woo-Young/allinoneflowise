@@ -100,7 +100,7 @@ services:
     #image: flowisegit:latest #flowiseai/flowise
     build:
       context: .
-      dockerfile: .workspace/Flowise/docker/Dockerfile-navis
+      dockerfile: ./flowise/Dockerfile-navis
     container_name: flowise
     restart: always
     environment:
