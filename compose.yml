@@ -98,7 +98,7 @@ services:
 
   # AI 챗봇 솔루션: Flowise (내부 DB로 PostgreSQL 사용)
   flowise:
-    image: flowisegit:latest #flowiseai/flowise
+    image: flowiseai/flowise #flowisegit:latest #flowiseai/flowise
     # build:
     #   context: .
     #   dockerfile: ./flowise/Dockerfile-navis
