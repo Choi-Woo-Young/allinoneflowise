@@ -17,3 +17,4 @@ flowise/logs/server-error.log
 flowise/logs/server-requests.log.jsonl
 flowise/logs/server.log
 .DS_Store
+.DS_Store
