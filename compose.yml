@@ -3,7 +3,7 @@ name: all_in_one_flowise
 services:
   # 챗봇용 RDB: PostgreSQL
   pgdb:
-    image: postgres:latest
+    image: postgres:15
     container_name: postgres_db
     restart: always
     environment:
@@ -19,7 +19,7 @@ services:
 
   # RDB 관리용: Adminer (선택 사항)
   adminer:
-    image: adminer:latest
+    image: adminer:4.17.1
     container_name: adminer
     restart: always
     ports:
@@ -29,7 +29,7 @@ services:
 
   # 큐: Redis
   redis:
-    image: redis:latest
+    image: redis:7.4.2
     container_name: redis
     restart: always
     ports:
@@ -38,7 +38,7 @@ services:
       - internal_net
 
   redis-commander:
-    image: rediscommander/redis-commander:latest
+    image: rediscommander/redis-commander:snyk-fix-08c85f17c94a7f00df6fb21e8ea1d10d
     container_name: redis-commander
     restart: always
     ports:
@@ -50,7 +50,7 @@ services:
 
   # 벡터DB: Qdrant
   qdrant:
-    image: qdrant/qdrant:latest
+    image: qdrant/qdrant:v1.13.4
     container_name: qdrant
     ports:
       - "6333:6333"
@@ -65,7 +65,7 @@ services:
     # build:
     #   context: ./workspace/chroma
     #   dockerfile: Dockerfile
-    image: chromadb/chroma:latest
+    image: chromadb/chroma:1.0.5.dev24
     container_name: chroma
     volumes:
       # 실제 인덱스/데이터 파일은 /chroma/chroma에 저장됩니다.
@@ -95,10 +95,21 @@ services:
     networks:
       - internal_net
 
-
+    # Unstructured API - unstructured file loader
+  # unstructured-api:
+  #   image: all_in_one_flowise-unstructured-api-amd:0.1
+  #   container_name: unstructured-api
+  #   restart: always
+  #   # platform: linux/amd64
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     - PORT=8082
+  #   networks:
+  #     - internal_net
   # AI 챗봇 솔루션: Flowise (내부 DB로 PostgreSQL 사용)
   flowise:
-    image: flowiseai/flowise #flowisegit:latest #flowiseai/flowise
+    image: flowiseai/flowise:2.2.7-patch.1 #flowisegit:latest #flowiseai/flowise
     # build:
     #   context: .
     #   dockerfile: ./flowise/Dockerfile-navis
@@ -162,7 +173,7 @@ services:
 
   # 웹서버: Nginx (리버스 프록시 역할, Flowise로 트래픽 전달)
   nginx:
-    image: nginx:latest
+    image: nginx:1.27.4
     container_name: nginx_web
     depends_on:
       - flowise
