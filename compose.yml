@@ -60,40 +60,23 @@ services:
     networks:
       - internal_net
 
-  # 벡터DB: Chroma (ChromaDB 서버 - 빌드 방식)
-  chroma:
-    # build:
-    #   context: ./workspace/chroma
-    #   dockerfile: Dockerfile
-    image: chromadb/chroma:1.0.5.dev24
-    container_name: chroma
-    volumes:
-      # 실제 인덱스/데이터 파일은 /chroma/chroma에 저장됩니다.
-      - ./chroma/db:/chroma/db
-    command: "--workers 1 --host 0.0.0.0 --port 8000 --proxy-headers --log-config chromadb/log_config.yml --timeout-keep-alive 30"
-    environment:
-      - IS_PERSISTENT=TRUE
-      # - CHROMA_SERVER_AUTHN_PROVIDER=${CHROMA_SERVER_AUTHN_PROVIDER}
-      # - CHROMA_SERVER_AUTHN_CREDENTIALS_FILE=${CHROMA_SERVER_AUTHN_CREDENTIALS_FILE}
-      # - CHROMA_SERVER_AUTHN_CREDENTIALS=${CHROMA_SERVER_AUTHN_CREDENTIALS}
-      # - CHROMA_AUTH_TOKEN_TRANSPORT_HEADER=${CHROMA_AUTH_TOKEN_TRANSPORT_HEADER}
-      # - PERSIST_DIRECTORY=${PERSIST_DIRECTORY:-/chroma/chroma}
-      # - CHROMA_OTEL_EXPORTER_ENDPOINT=${CHROMA_OTEL_EXPORTER_ENDPOINT}
-      # - CHROMA_OTEL_EXPORTER_HEADERS=${CHROMA_OTEL_EXPORTER_HEADERS}
-      # - CHROMA_OTEL_SERVICE_NAME=${CHROMA_OTEL_SERVICE_NAME}
-      # - CHROMA_OTEL_GRANULARITY=${CHROMA_OTEL_GRANULARITY}
-      # - CHROMA_SERVER_NOFILE=${CHROMA_SERVER_NOFILE}
-      - CHROMA_SERVER_CORS_ALLOW_ORIGINS=["*"]
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/heartbeat"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    networks:
-      - internal_net
+  # 벡터DB: Chroma
+  # https://docs.trychroma.com/production/containers/docker
+  # chroma:
+  #   image: chromadb/chroma:1.0.5.dev24
+  #   container_name: chroma
+  #   volumes:
+  #     - ./chromadb:/chroma/chroma
+  #   ports:
+  #     - "8000:8000"
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/heartbeat"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   networks:
+  #     - internal_net
 
     # Unstructured API - unstructured file loader
   # unstructured-api:
@@ -166,7 +149,7 @@ services:
     depends_on:
       - pgdb
       - qdrant
-      - chroma
+      # - chroma
       - redis
     networks:
       - internal_net
